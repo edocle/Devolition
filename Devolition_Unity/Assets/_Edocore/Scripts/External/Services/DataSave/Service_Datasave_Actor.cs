@@ -1,26 +1,22 @@
-
 using System;
 
-namespace edocore.services
+namespace edocore.external.services
 {
     /// <summary>
     /// Actor service to register & recover all saved data in generated files
     /// Handles system data
-    /// Handles multiple game saves data
     /// </summary>
-    public interface IService_Datasave_Actor : IServiceActor
+    public interface IService_SystemDataSave_Actor
     {
-        // System save
-
         /// <summary>
-        /// First, need to try recover system save data
+        /// Tries to load system data
         /// System save contains all datas saved in order for the system to work
         /// Used to "load" the system, or to generate it if it does not exist yet
         /// </summary>
         /// <typeparam name="T">data type</typeparam>
         /// <param name="callback">Callback to indicate success or failure</param>
         /// <param name="data">The data to be recovered</param>
-        void TryRecoverSystemSave<T>(Action<bool> callback, ref T data);
+        void TryLoadSystem<T>(Action<bool> callback, ref T data);
 
         /// <summary>
         /// Tries to update registered system data
@@ -29,9 +25,14 @@ namespace edocore.services
         /// <param name="callback">Callback to indicate success or failure</param>
         /// <param name="data">The data to be saved</param>
         void TrySaveSystem<T>(Action<bool> callback, ref T data);
+    }
 
-        // Game saves
-
+    /// <summary>
+    /// Actor service to register & recover all saved data in generated files
+    /// Handles multiple game saves data
+    /// </summary>
+    public interface IService_GameDataSave_Actor
+    {
         /// <summary>
         /// Tries to load game data
         /// Can have multiple sets of game data, identified by their id
@@ -39,11 +40,12 @@ namespace edocore.services
         /// /!\ @todo cannot save multiple datas of the same type for now, may need to update that
         /// ex: if yo uwant to save more than one player, put all player datas into a playersHubData and save the hub
         /// </summary>
-        /// <typeparam name="T">data type</typeparam>
-        /// <param name="id">id of data set</param>
+        /// <typeparam name="D">data type</typeparam>
+        /// <param name="slot">slot of data set</param>
+        /// <param name="id">id of data</param>
         /// <param name="callback">Callback to indicate success or failure</param>
         /// <param name="data">The data to be loaded</param>
-        void TryLoadGame<T>(string id, Action<bool> callback, ref T data);
+        void TryLoadGame<D>(string slot, string id, Action<bool> callback, ref D data);
 
         /// <summary>
         /// Tries to save game data
@@ -52,10 +54,11 @@ namespace edocore.services
         /// /!\ @todo cannot save multiple datas of the same type for now, may need to update that
         /// ex: if yo uwant to save more than one player, put all player datas into a playersHubData and save the hub
         /// </summary>
-        /// <typeparam name="T">data type</typeparam>
-        /// <param name="id">id of data set</param>
+        /// <typeparam name="D">data type</typeparam>
+        /// <param name="slot">slot of data set</param>
+        /// <param name="id">id of data</param>
         /// <param name="callback">Callback to indicate success or failure</param>
         /// <param name="data">The data to be saved</param>
-        void TrySaveGame<T>(string id, Action<bool> callback, ref T data);
+        void TrySaveGame<D>(string slot, string id, Action<bool> callback, ref D data);
     }
 }

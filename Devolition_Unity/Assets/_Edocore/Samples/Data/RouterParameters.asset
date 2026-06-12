@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085598b2c2f481e46a27d4a44f0d7242, type: 3}
+  m_Name: RouterParameters
+  m_EditorClassIdentifier: Assembly-CSharp::edocle.external.RouterParameters
+  _systemSaveDataHandler: {fileID: 11400000, guid: a9f32cb0711b6e443adc5b1281ec1160, type: 2}
+  _gameSaveDataHandlers:
+  - {fileID: 11400000, guid: b365d84a7b249ec408f4f71e2e78658f, type: 2}
+  - {fileID: 11400000, guid: 9528d344b0e6fce48a4137d21a5a2834, type: 2}
+  - {fileID: 11400000, guid: eea7f9a3074fdbe43a697b333068fd5e, type: 2}
+  - {fileID: 11400000, guid: 10524a1568522f04f8b899cf555ecb12, type: 2}

@@ -1,17 +1,16 @@
-
 using System;
 using UnityEngine;
 
-namespace edocore.services
+namespace edocore.external.services
 {
-    public class Service_DataSave_Actor_Json : IService_Datasave_Actor
+    public class Service_DataSave_Actor_Json : IServiceActor, IService_SystemDataSave_Actor, IService_GameDataSave_Actor
     {
-        public void Init(Action callback)
+        public void Init(Action<bool> callback)
         {
             if (!System.IO.Directory.Exists(_folderPath))
                 System.IO.Directory.CreateDirectory(_folderPath);
 
-            callback?.Invoke();
+            callback?.Invoke(true);
         }
 
         readonly string _folderPath = System.IO.Path.Combine(Application.persistentDataPath, "DataSave");
@@ -22,7 +21,7 @@ namespace edocore.services
 
         string SystemFilePath => System.IO.Path.Combine(_folderPath, _systemFileName);
 
-        public void TryRecoverSystemSave<T>(Action<bool> callback, ref T data)
+        public void TryLoadSystem<T>(Action<bool> callback, ref T data)
         {
             string filePath = SystemFilePath;
 
@@ -51,14 +50,15 @@ namespace edocore.services
         #region game
 
         readonly string _gameFolderPrefix = "Game_";
+        readonly string _gameFileExtension = ".json";
 
-        string GetGameNameFile<T>( T data )
-        { return typeof(T).Name + ".json"; }
+        string GetGameNameFile( string id )
+        { return id + _gameFileExtension; }
 
-        public void TryLoadGame<T>(string id, Action<bool> callback, ref T data)
+        public void TryLoadGame<D>(string slot, string id, Action<bool> callback, ref D data)
         {
-            string gameSaveFolder = System.IO.Path.Combine(_folderPath, _gameFolderPrefix + id);
-            string fileName = GetGameNameFile(data);
+            string gameSaveFolder = System.IO.Path.Combine(_folderPath, _gameFolderPrefix + slot);
+            string fileName = GetGameNameFile(id);
             string filePath = System.IO.Path.Combine(gameSaveFolder, fileName);
 
             if (System.IO.File.Exists(filePath))
@@ -72,14 +72,14 @@ namespace edocore.services
             callback?.Invoke(false);
         }
 
-        public void TrySaveGame<T>(string id, Action<bool> callback, ref T data)
+        public void TrySaveGame<D>(string slot, string id, Action<bool> callback, ref D data)
         {
-            string gameSaveFolder = System.IO.Path.Combine(_folderPath, _gameFolderPrefix + id);
+            string gameSaveFolder = System.IO.Path.Combine(_folderPath, _gameFolderPrefix + slot);
 
             if (!System.IO.Directory.Exists(gameSaveFolder))
                 System.IO.Directory.CreateDirectory(gameSaveFolder);
 
-            string fileName = GetGameNameFile(data);
+            string fileName = GetGameNameFile(id);
             string filePath = System.IO.Path.Combine(gameSaveFolder, fileName);
             string json = JsonUtility.ToJson(data, true);
             System.IO.File.WriteAllText(filePath, json);
