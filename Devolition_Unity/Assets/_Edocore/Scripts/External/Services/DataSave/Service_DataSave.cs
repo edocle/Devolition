@@ -56,14 +56,9 @@ namespace edocle.external.services
             _systemDataHandler = _context.SystemSaveDataHandler;
             _systemDataHandler.Init(_actor);
 
-            bool gameHasSlot = _systemDataHandler.HasGameSlots;
             _gameDataHandlers = _context.GameSaveDataHandlers;
             foreach(var handler in _gameDataHandlers)
-            {
                 handler.Init(this);
-                if (gameHasSlot)
-                    handler.TryLoad();
-            }
         }
 
         public override void Terminate()
@@ -88,26 +83,24 @@ namespace edocle.external.services
             return _gameDataHandlers.Find(handler => handler is D) as D;
         }
 
-        public void GenerateNewGameSlot(string slotId, int index = -1)
+        public void GenerateNewGameSlot(string slotId, int index = -1, bool forceLoad = true)
         {
-            bool alreadyHasGameSlot = _systemDataHandler.HasGameSlots;
-
             _systemDataHandler.GenerateNewGameSlot(slotId, index);
             _currentSlot = slotId;
 
-            if (!alreadyHasGameSlot)
-            {
+            if (forceLoad)
                 foreach (var handler in _gameDataHandlers)
                     handler.TryLoad();
-            }
+        }
+
+        public void LoadGameSlot(string slotId)
+        {
+            _currentSlot = slotId;
+            foreach (var handler in _gameDataHandlers)
+                    handler.TryLoad();
         }
 
         #region system
-
-        public D GetSystemDataHandler<D>() where D : SystemSaveDataHandler
-        {
-            return _systemDataHandler as D;
-        }
 
         public void TryLoadSystemData<D>(Action<bool> callback, ref D data)
         {
@@ -123,18 +116,25 @@ namespace edocle.external.services
 
         #region games
 
-        public D GetGameDataHandler<D>() where D : GameSaveDataHandler
-        {
-            return _gameDataHandlers.Find(handler => handler is D) as D;
-        }
-
         public void TryLoadGameData<D>(string id, Action<bool> callback, ref D data)
         {
+            if (string.IsNullOrEmpty(_currentSlot))
+            {
+                callback(false);
+                return;
+            }
+
             _actor.TryLoadGame(_currentSlot, id, callback, ref data);
         }
 
         public void TrySaveGameData<D>(string id, Action<bool> callback, ref D data)
         {
+            if (string.IsNullOrEmpty(_currentSlot))
+            {
+                callback(false);
+                return;
+            }
+
             _actor.TrySaveGame(_currentSlot, id, callback, ref data);
         }
 

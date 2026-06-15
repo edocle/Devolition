@@ -62,8 +62,12 @@ namespace edocle.sample
             Debug.Log($"Game sample B> SampleInt>{gameDataHandlerB.SampleInt}, SampleString>{gameDataHandlerB.SampleString}");
 
             Sample_SystemSaveHandler systemDataHandler = _dataSaveService.GetData<Sample_SystemSaveHandler>();
-            if (!systemDataHandler.HasGameSlots)
+
+            if (!systemDataHandler.HasGameSlots || string.IsNullOrEmpty(systemDataHandler.CurrentGameSlotId))
                 _dataSaveService.GenerateNewGameSlot("Sample_001");
+            else
+                _dataSaveService.LoadGameSlot(systemDataHandler.CurrentGameSlotId);
+
 
             gameDataHandlerA.SampleString = "test1";
             Debug.Log($"Game sample A> SampleString>{gameDataHandlerA.SampleString}");
