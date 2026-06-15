@@ -1,6 +1,6 @@
 using System;
 
-namespace edocore.external.services
+namespace edocle.external.services
 {
     public interface IServiceActor
     {

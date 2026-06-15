@@ -1,7 +1,9 @@
 
 using edocle.external;
+using System.Collections.Generic;
+using UnityEngine.Video;
 
-namespace edocore
+namespace edocle.core
 {
     public class ContextsHandler
     {
@@ -20,6 +22,7 @@ namespace edocore
         public ContextsHandler(Router router)
         {
             _router = router;
+
         }
 
         public void Terminate()
@@ -74,10 +77,12 @@ namespace edocore
         public InternalContext(ServicesHandler servicesHandler, RouterParameters routerParameters)
         {
             ServicesHandler = servicesHandler;
-            RouterParameters = routerParameters;
+            SystemSaveDataHandler = routerParameters.SystemSaveDataHandler;
+            GameSaveDataHandlers = routerParameters.GameSaveDataHandlers;
         }
 
-        public RouterParameters RouterParameters { get; private set; }
+        public SystemSaveDataHandler SystemSaveDataHandler { get; private set; }
+        public List<GameSaveDataHandler> GameSaveDataHandlers { get; private set; }
         public ServicesHandler ServicesHandler { get; private set; }
     }
 

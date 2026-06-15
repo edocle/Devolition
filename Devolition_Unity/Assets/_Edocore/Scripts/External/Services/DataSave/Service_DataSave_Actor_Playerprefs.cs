@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 
-namespace edocore.external.services
+namespace edocle.external.services
 {
-    public class Service_DataSave_Actor_Playerprefs : IServiceActor, IService_SystemDataSave_Actor, IService_GameDataSave_Actor
+    public class Service_DataSave_Actor_Playerprefs : Service_DataSave_Actor
     {
-        public void Init(Action<bool> callback)
+        public override void Init(Action<bool> callback)
         {
             callback?.Invoke(true);
         }
@@ -14,7 +14,7 @@ namespace edocore.external.services
 
         readonly string _systemSaveKey = "SystemSave";
 
-        public void TryLoadSystem<T>(Action<bool> callback, ref T data)
+        public override void TryLoadSystem<T>(Action<bool> callback, ref T data)
         {
             string content = PlayerPrefs.GetString(_systemSaveKey);
             if (string.IsNullOrEmpty(content))
@@ -27,7 +27,7 @@ namespace edocore.external.services
             callback?.Invoke(true);
         }
 
-        public void TrySaveSystem<T>(Action<bool> callback, ref T data)
+        public override void TrySaveSystem<T>(Action<bool> callback, ref T data)
         {
             string content = JsonUtility.ToJson(data);
             PlayerPrefs.SetString(_systemSaveKey, content);
@@ -44,7 +44,7 @@ namespace edocore.external.services
         string GetGameSaveKey<D>(string slot, string id, D data)
         { return _gameSaveKeyPrefix + "_" + slot + "_" + id; }
 
-        public void TryLoadGame<D>(string slot, string id, Action<bool> callback, ref D data)
+        public override void TryLoadGame<D>(string slot, string id, Action<bool> callback, ref D data)
         {
             string key = GetGameSaveKey(slot, id, data);
             string content = PlayerPrefs.GetString(key);
@@ -58,7 +58,7 @@ namespace edocore.external.services
             callback?.Invoke(true);
         }
 
-        public void TrySaveGame<D>(string slot, string id, Action<bool> callback, ref D data)
+        public override void TrySaveGame<D>(string slot, string id, Action<bool> callback, ref D data)
         {
             string key = GetGameSaveKey(slot, id, data);
             string content = JsonUtility.ToJson(data);

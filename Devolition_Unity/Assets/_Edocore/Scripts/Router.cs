@@ -1,7 +1,7 @@
 
 using edocle.external;
 
-namespace edocore
+namespace edocle.core
 {
     /// <summary>
     /// edocore router is the one way to route all edocore features
@@ -24,6 +24,8 @@ namespace edocore
             Terminate();
         }
 
+        #endregion Lifecycle
+
         void Init()
         {
             InitServices();
@@ -35,8 +37,6 @@ namespace edocore
             TerminateServices();
             TerminateContexts();
         }
-
-        #endregion Lifecycle
 
         #region Contexts
 

@@ -1,4 +1,4 @@
-using edocore.external.services;
+using edocle.external.services;
 using UnityEngine;
 
 namespace edocle.external
@@ -8,7 +8,7 @@ namespace edocle.external
         [SerializeField] protected string _id;
         [SerializeField] protected T _data;
 
-        public void TryLoad()
+        public override void TryLoad()
         {
             _service.TryLoadGameData(_id, success =>
             {
@@ -25,7 +25,7 @@ namespace edocle.external
             }, ref _data);
         }
 
-        public void TrySave()
+        public override void TrySave()
         {
             _service.TrySaveGameData(_id, success =>
             {
@@ -54,6 +54,9 @@ namespace edocle.external
         {
             _service = null;
         }
+
+        public abstract void TryLoad();
+        public abstract void TrySave();
     }
 
     public abstract class GameSaveData : SaveData

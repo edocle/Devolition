@@ -1,12 +1,19 @@
+using edocle.core;
 using System;
 
-namespace edocore.external.services
+namespace edocle.external.services
 {
     public interface IService
     {
-        void Init<T>(T actor, Action<bool> callback) where T : IServiceActor;
+        void Init<A>(A actor, Action<bool> callback) where A : IServiceActor;
 
         void Terminate();
+    }
+
+    public abstract class Service<A> : Service where A : IServiceActor
+    {
+        protected Service(InternalContext context) : base(context)
+        { }
     }
 
     public abstract class Service : IService
@@ -18,7 +25,7 @@ namespace edocore.external.services
             _context = context;
         }
 
-        public abstract void Init<T>(T actor, Action<bool> callback) where T : IServiceActor;
+        public abstract void Init<A>(A actor, Action<bool> callback) where A : IServiceActor;
 
         public abstract void Terminate();
     }

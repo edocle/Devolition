@@ -1,10 +1,9 @@
-using edocore.external.services;
+using edocle.external.services;
 using System;
 using System.Collections.Generic;
 
-namespace edocore
+namespace edocle.core
 {
-
     /// <summary>
     ///  Contains all edocore services
     ///  Used to access or generate them

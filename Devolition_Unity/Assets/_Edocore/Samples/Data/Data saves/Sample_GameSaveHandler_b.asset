@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 743085870b7a95e44bb8eb625672d974, type: 3}
-  m_Name: Sample_GameSaveHandler_a 0
-  m_EditorClassIdentifier: Assembly-CSharp::Sample_GameSaveHandler_a
-  _id: a0
+  m_Script: {fileID: 11500000, guid: 399551e5f3dddc44ea3bf0440da8881b, type: 3}
+  m_Name: Sample_GameSaveHandler_b
+  m_EditorClassIdentifier: Assembly-CSharp::Sample_GameSaveHandler_b
+  _id: b0

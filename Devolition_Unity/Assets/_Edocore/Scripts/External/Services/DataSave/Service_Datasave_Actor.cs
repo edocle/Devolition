@@ -1,6 +1,6 @@
 using System;
 
-namespace edocore.external.services
+namespace edocle.external.services
 {
     /// <summary>
     /// Actor service to register & recover all saved data in generated files
@@ -61,4 +61,16 @@ namespace edocore.external.services
         /// <param name="data">The data to be saved</param>
         void TrySaveGame<D>(string slot, string id, Action<bool> callback, ref D data);
     }
+
+    public abstract class Service_DataSave_Actor : IServiceActor, IService_SystemDataSave_Actor, IService_GameDataSave_Actor
+    {
+        public abstract void Init(Action<bool> callback);
+
+        public abstract void TryLoadSystem<T>(Action<bool> callback, ref T data);
+        public abstract void TrySaveSystem<T>(Action<bool> callback, ref T data);
+        public abstract void TryLoadGame<D>(string slot, string id, Action<bool> callback, ref D data);
+        public abstract void TrySaveGame<D>(string slot, string id, Action<bool> callback, ref D data);
+    }
+
+
 }
