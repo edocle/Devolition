@@ -1,5 +1,6 @@
 using edocle.external;
 using edocle.external.services;
+using edocle.external.tools;
 using UnityEngine;
 
 namespace edocle.sample
@@ -14,6 +15,7 @@ namespace edocle.sample
         {
             _access = access;
             InitDataSave();
+            InitUserControls();
         }
 
 
@@ -85,5 +87,30 @@ namespace edocle.sample
         #endregion Game
 
         #endregion Data Save
+
+        #region User controls
+
+        void InitUserControls()
+        {
+            UserControls userControls = new UserControls();
+            userControls.OnPress += (pointerInput, time) =>
+            {
+                Debug.Log($"Pointer pressed at {pointerInput.Position} at time {time}");
+            };
+            userControls.OnDrag += (pointerInput, time) =>
+            {
+                Debug.Log($"Pointer dragged at {pointerInput.Position} at time {time}");
+            };
+            userControls.OnHover += (pointerInput, time) =>
+            {
+                Debug.Log($"Pointer hovered at {pointerInput.Position} at time {time}");
+            };
+            userControls.OnRelease += (pointerInput, time) =>
+            {
+                Debug.Log($"Pointer released at {pointerInput.Position} at time {time}");
+            };
+        }
+
+        #endregion User controls
     }
 }
